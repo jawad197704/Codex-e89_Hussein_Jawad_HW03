@@ -22,8 +22,14 @@ def train_model(
     training_loader: DataLoader,
     validation_loader: DataLoader,
     epochs: int,
-) -> None:
-    """Train and validate ``model_to_train`` for the requested epochs."""
+) -> dict[str, list[float]]:
+    """Train a model and return its loss and accuracy history by epoch."""
+    history: dict[str, list[float]] = {
+        "loss": [],
+        "training_accuracy": [],
+        "validation_accuracy": [],
+    }
+
     for epoch in range(1, epochs + 1):
         model_to_train.train()
         training_loss = 0.0
@@ -55,12 +61,18 @@ def train_model(
         validation_accuracy = accuracy_metric.compute().item()
         accuracy_metric.reset()
 
+        history["loss"].append(average_training_loss)
+        history["training_accuracy"].append(training_accuracy)
+        history["validation_accuracy"].append(validation_accuracy)
+
         print(
             f"Epoch {epoch:02d}/{epochs} | "
             f"Loss: {average_training_loss:.4f} | "
             f"Training accuracy: {training_accuracy:.4f} | "
             f"Validation accuracy: {validation_accuracy:.4f}"
         )
+
+    return history
 
 
 if __name__ == "__main__":
