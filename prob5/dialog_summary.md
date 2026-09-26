@@ -96,11 +96,21 @@ the project.
 
 ## Corrections and final packaging
 
-During the final packaging pass, all eight scripts and this summary were moved
-under the requested `prob5/` directory. The training and validation metrics use
-micro-averaged multiclass accuracy, which corresponds to the overall fraction
-of correctly classified images. The shuffled training loader also receives its
-own generator seeded with `42`, making its initial batch order reproducible. A
-self-contained notebook, `prob5/e89_Hussein_Jawad_HW03_Prob5.ipynb`, presents
-the same eight stages in order and reuses the already-trained baseline model and
-its history rather than training that model again for prediction and plotting.
+The final review resulted in the following corrections:
+
+- All eight scripts, the dialog summary, and the notebook were consolidated in
+  the requested `prob5/` directory.
+- Training and validation now use micro-averaged multiclass accuracy, so the
+  reported value is the overall fraction of correctly classified images rather
+  than a macro average across classes.
+- The shuffled training `DataLoader` has its own generator seeded with `42`,
+  making its initial batch order reproducible as well as the dataset split and
+  model initialization.
+- The self-contained notebook,
+  `prob5/e89_Hussein_Jawad_HW03_Prob5.ipynb`, presents all eight stages in order
+  and trains the baseline model only once. Its prediction and plotting stages
+  reuse that trained model and its recorded history instead of repeating the
+  same training run.
+- This updated dialog summary is included as the notebook's final Markdown cell
+  so the submitted notebook records both the completed workflow and the final
+  corrections.
