@@ -12,15 +12,17 @@ NUMBER_OF_CLASSES = 10
 class FashionMNISTClassifier(nn.Module):
     """Classify 28-by-28 grayscale images into 10 clothing categories."""
 
-    def __init__(self) -> None:
+    def __init__(self, hidden_layer_size: int | None = None) -> None:
         super().__init__()
+        first_hidden_size = 300 if hidden_layer_size is None else hidden_layer_size
+        second_hidden_size = 100 if hidden_layer_size is None else hidden_layer_size
         self.network = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(INPUT_FEATURES, 300),
+            nn.Linear(INPUT_FEATURES, first_hidden_size),
             nn.ReLU(),
-            nn.Linear(300, 100),
+            nn.Linear(first_hidden_size, second_hidden_size),
             nn.ReLU(),
-            nn.Linear(100, NUMBER_OF_CLASSES),
+            nn.Linear(second_hidden_size, NUMBER_OF_CLASSES),
         )
 
     def forward(self, images: torch.Tensor) -> torch.Tensor:
