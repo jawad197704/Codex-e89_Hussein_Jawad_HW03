@@ -6,7 +6,7 @@ data, through defining and training a neural network, to inspecting results and
 tuning hyperparameters. Each script can be run directly, while its functions and
 classes can also be imported by the later scripts.
 
-## 1. `script1_load_dataset.py` — Load and split the dataset
+## 1. `prob5/script1_load_dataset.py` — Load and split the dataset
 
 The first script downloads the Fashion-MNIST training and test datasets and
 converts each image to a PyTorch tensor. It reproducibly splits the original
@@ -15,7 +15,7 @@ examples using a generator seeded with `42`. Its `load_datasets` function return
 the training, validation, and test datasets, and its command-line output reports
 the size of each split.
 
-## 2. `script2_dataloaders.py` — Build data loaders
+## 2. `prob5/script2_dataloaders.py` — Build data loaders
 
 The second script calls `load_datasets` and wraps all three dataset splits in
 PyTorch `DataLoader` objects with a batch size of 32. It shuffles only the
@@ -23,7 +23,7 @@ training data, leaving validation and test data in a stable order. When run
 directly, it inspects the first training example and prints its tensor shape,
 data type, and human-readable Fashion-MNIST class name.
 
-## 3. `script3_model.py` — Define the classifier
+## 3. `prob5/script3_model.py` — Define the classifier
 
 The third script defines `FashionMNISTClassifier`, a fully connected neural
 network for 28-by-28 grayscale images. The network flattens each image's 784
@@ -32,7 +32,7 @@ activations, and produces logits for the 10 clothing classes. The script seeds
 PyTorch for reproducibility, selects CUDA when available (otherwise CPU), creates
 a shared model instance, and defines cross-entropy as the classification loss.
 
-## 4. `script4_train.py` — Train and validate the model
+## 4. `prob5/script4_train.py` — Train and validate the model
 
 The fourth script adds the reusable `train_model` function. By default, it trains
 for 20 epochs with stochastic gradient descent and a learning rate of 0.1. For
@@ -42,7 +42,7 @@ gradients, and prints the epoch's metrics. It returns a history dictionary
 containing loss, training accuracy, and validation accuracy so later scripts can
 reuse the results.
 
-## 5. `script5_predictions.py` — Inspect predictions
+## 5. `prob5/script5_predictions.py` — Inspect predictions
 
 The fifth script trains the classifier and then examines the first three images
 from the validation loader. It reports the model's total parameter count and, for
@@ -51,14 +51,14 @@ every Fashion-MNIST class, and the four most likely classes in ranked order. The
 probabilities are obtained by applying softmax to the model's logits while the
 model is in evaluation mode.
 
-## 6. `script6_plot_accuracy.py` — Visualize training progress
+## 6. `prob5/script6_plot_accuracy.py` — Visualize training progress
 
 The sixth script trains the model and plots the recorded training and validation
 accuracy for every epoch with Matplotlib. The chart includes labeled axes, a
 title, a legend, a grid, and an accuracy range fixed from zero to one, making it
 easy to compare learning performance and generalization over time.
 
-## 7. `script7_optuna.py` — Tune hyperparameters
+## 7. `prob5/script7_optuna.py` — Tune hyperparameters
 
 The seventh script introduces Optuna-based hyperparameter optimization. It
 defines a tunable classifier whose two hidden layers share a sampled width, then
@@ -67,7 +67,7 @@ logarithmic learning-rate range from `1e-5` to `1e-1` and a hidden-layer width
 from 20 to 300 neurons. Each trial is scored by its best validation accuracy,
 after which the study prints the best learning rate, layer width, and score.
 
-## 8. `script8_optuna_pruning.py` — Prune weak tuning trials
+## 8. `prob5/script8_optuna_pruning.py` — Prune weak tuning trials
 
 The final script extends the Optuna search to 20 trials and adds a median pruner.
 It implements the training and validation loop at the epoch level so that every
@@ -93,3 +93,14 @@ Together, the scripts create an incremental pipeline:
 The design deliberately reuses earlier modules in later steps, so dataset
 preparation, model definitions, and training logic stay consistent throughout
 the project.
+
+## Corrections and final packaging
+
+During the final packaging pass, all eight scripts and this summary were moved
+under the requested `prob5/` directory. The training and validation metrics use
+micro-averaged multiclass accuracy, which corresponds to the overall fraction
+of correctly classified images. The shuffled training loader also receives its
+own generator seeded with `42`, making its initial batch order reproducible. A
+self-contained notebook, `prob5/e89_Hussein_Jawad_HW03_Prob5.ipynb`, presents
+the same eight stages in order and reuses the already-trained baseline model and
+its history rather than training that model again for prediction and plotting.

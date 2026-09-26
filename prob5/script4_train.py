@@ -27,10 +27,14 @@ def train_model(
     model_to_train.to(training_device)
     loss_function = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model_to_train.parameters(), lr=learning_rate)
-    training_accuracy = MulticlassAccuracy(num_classes=NUMBER_OF_CLASSES).to(
+    training_accuracy = MulticlassAccuracy(
+        num_classes=NUMBER_OF_CLASSES, average="micro"
+    ).to(
         training_device
     )
-    validation_accuracy = MulticlassAccuracy(num_classes=NUMBER_OF_CLASSES).to(
+    validation_accuracy = MulticlassAccuracy(
+        num_classes=NUMBER_OF_CLASSES, average="micro"
+    ).to(
         training_device
     )
     history: dict[str, list[float]] = {

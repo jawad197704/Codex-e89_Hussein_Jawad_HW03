@@ -1,11 +1,13 @@
 """Create DataLoaders and inspect a sample from the Fashion-MNIST data."""
 
+import torch
 from torch.utils.data import DataLoader
 
 from script1_load_dataset import load_datasets
 
 
 BATCH_SIZE = 32
+RANDOM_SEED = 42
 
 
 def create_dataloaders(data_dir: str = "data"):
@@ -16,6 +18,7 @@ def create_dataloaders(data_dir: str = "data"):
         training_set,
         batch_size=BATCH_SIZE,
         shuffle=True,
+        generator=torch.Generator().manual_seed(RANDOM_SEED),
     )
     validation_loader = DataLoader(
         validation_set,
