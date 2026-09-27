@@ -18,6 +18,10 @@ from script4_train_model import train_model
 RANDOM_SEED = 42
 NUMBER_OF_EPOCHS = 10
 NUMBER_OF_TRIALS = 20
+MINIMUM_LEARNING_RATE = 1e-5
+MAXIMUM_LEARNING_RATE = 1e-1
+MINIMUM_HIDDEN_SIZE = 20
+MAXIMUM_HIDDEN_SIZE = 300
 
 
 def objective(
@@ -26,8 +30,17 @@ def objective(
     validation_loader: DataLoader,
 ) -> float:
     """Train a sampled model and prune it when validation results are poor."""
-    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-1, log=True)
-    hidden_layer_size = trial.suggest_int("hidden_layer_size", 20, 300)
+    learning_rate = trial.suggest_float(
+        "learning_rate",
+        MINIMUM_LEARNING_RATE,
+        MAXIMUM_LEARNING_RATE,
+        log=True,
+    )
+    hidden_layer_size = trial.suggest_int(
+        "hidden_layer_size",
+        MINIMUM_HIDDEN_SIZE,
+        MAXIMUM_HIDDEN_SIZE,
+    )
 
     torch.manual_seed(RANDOM_SEED)
     if torch.cuda.is_available():

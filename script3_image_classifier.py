@@ -6,6 +6,8 @@ from torch import nn
 
 RANDOM_SEED = 42
 INPUT_FEATURES = 28 * 28
+FIRST_HIDDEN_SIZE = 300
+SECOND_HIDDEN_SIZE = 100
 NUMBER_OF_CLASSES = 10
 
 
@@ -14,8 +16,12 @@ class FashionMNISTClassifier(nn.Module):
 
     def __init__(self, hidden_layer_size: int | None = None) -> None:
         super().__init__()
-        first_hidden_size = 300 if hidden_layer_size is None else hidden_layer_size
-        second_hidden_size = 100 if hidden_layer_size is None else hidden_layer_size
+        first_hidden_size = (
+            FIRST_HIDDEN_SIZE if hidden_layer_size is None else hidden_layer_size
+        )
+        second_hidden_size = (
+            SECOND_HIDDEN_SIZE if hidden_layer_size is None else hidden_layer_size
+        )
         self.network = nn.Sequential(
             nn.Flatten(),
             nn.Linear(INPUT_FEATURES, first_hidden_size),

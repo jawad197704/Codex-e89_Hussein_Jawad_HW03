@@ -57,9 +57,9 @@ display when necessary.
 
 This script provides `plot_accuracy`, which accepts metric history produced by
 an earlier training run; it does not train the classifier again. The function
-uses Matplotlib to display training and validation accuracy for every epoch on
-the same chart. The plot includes labeled axes, a title, legend, grid, tight
-layout, and a fixed accuracy range from zero to one.
+uses Matplotlib to display the recorded training accuracy for every epoch, with
+a marker at each recorded value. The plot includes labeled axes, a title,
+legend, grid, tight layout, and a fixed accuracy range from zero to one.
 
 ## 7. `script7_optuna.py` — Tune hyperparameters
 
@@ -88,7 +88,7 @@ Together, the scripts provide the following sequence:
 3. Define a baseline fully connected classifier.
 4. Train the classifier and record loss and accuracy.
 5. Inspect validation predictions and probability rankings.
-6. Visualize training and validation accuracy.
+6. Visualize the recorded training accuracy.
 7. Tune learning rate and hidden-layer width with Optuna.
 8. Accelerate the search by pruning unpromising trials.
 

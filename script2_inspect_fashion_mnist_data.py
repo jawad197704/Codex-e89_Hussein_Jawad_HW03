@@ -35,13 +35,17 @@ def create_data_loaders() -> tuple[DataLoader, DataLoader, DataLoader]:
     return training_loader, validation_loader, test_loader
 
 
-if __name__ == "__main__":
-    train_loader, validation_loader, test_loader = create_data_loaders()
-
-    image, target = train_loader.dataset[0]
-    class_names = train_loader.dataset.dataset.classes
+def display_first_training_sample(training_loader: DataLoader) -> None:
+    """Display the tensor metadata and label for the first training sample."""
+    image, target = training_loader.dataset[0]
+    class_names = training_loader.dataset.dataset.classes
 
     print(f"Image tensor shape: {image.shape}")
     print(f"Image tensor data type: {image.dtype}")
     print(f"Numeric target: {target}")
     print(f"Class name: {class_names[target]}")
+
+
+if __name__ == "__main__":
+    training_loader, validation_loader, test_loader = create_data_loaders()
+    display_first_training_sample(training_loader)

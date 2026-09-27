@@ -36,7 +36,7 @@ def evaluate_model(
 
     trained_model.to(evaluation_device)
     trained_model.eval()
-    with torch.no_grad():
+    with torch.inference_mode():
         logits = trained_model(images)
         predicted_indices = logits.argmax(dim=1)
         probabilities = torch.softmax(logits, dim=1)
@@ -70,7 +70,8 @@ def evaluate_model(
                 f"{probability.item():.3f}"
             )
 
-    print(f"\nTotal model parameters: {count_parameters(trained_model):,}")
+    total_parameters = count_parameters(trained_model)
+    print(f"\nTotal model parameters: {total_parameters:,}")
 
 
 if __name__ == "__main__":
