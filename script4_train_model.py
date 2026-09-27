@@ -76,16 +76,16 @@ def train_model(
 
 
 if __name__ == "__main__":
-    train_loader, validation_loader, _ = create_data_loaders()
+    training_loader, validation_loader, _ = create_data_loaders()
     optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE)
     accuracy = MulticlassAccuracy(num_classes=NUMBER_OF_CLASSES).to(device)
 
-    train_model(
+    history = train_model(
         model,
         optimizer,
         loss_function,
         accuracy,
-        train_loader,
+        training_loader,
         validation_loader,
         NUMBER_OF_EPOCHS,
     )

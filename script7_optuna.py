@@ -2,6 +2,7 @@
 
 import optuna
 import torch
+from torch.utils.data import DataLoader
 from torchmetrics.classification import MulticlassAccuracy
 
 from script2_inspect_fashion_mnist_data import create_data_loaders
@@ -17,16 +18,29 @@ from script4_train_model import train_model
 RANDOM_SEED = 42
 NUMBER_OF_EPOCHS = 10
 NUMBER_OF_TRIALS = 5
+MINIMUM_LEARNING_RATE = 1e-5
+MAXIMUM_LEARNING_RATE = 1e-1
+MINIMUM_HIDDEN_SIZE = 20
+MAXIMUM_HIDDEN_SIZE = 300
 
 
 def objective(
     trial: optuna.Trial,
-    training_loader: torch.utils.data.DataLoader,
-    validation_loader: torch.utils.data.DataLoader,
+    training_loader: DataLoader,
+    validation_loader: DataLoader,
 ) -> float:
     """Train one sampled configuration and return its best validation accuracy."""
-    learning_rate = trial.suggest_float("learning_rate", 1e-5, 1e-1, log=True)
-    hidden_layer_size = trial.suggest_int("hidden_layer_size", 20, 300)
+    learning_rate = trial.suggest_float(
+        "learning_rate",
+        MINIMUM_LEARNING_RATE,
+        MAXIMUM_LEARNING_RATE,
+        log=True,
+    )
+    hidden_layer_size = trial.suggest_int(
+        "hidden_layer_size",
+        MINIMUM_HIDDEN_SIZE,
+        MAXIMUM_HIDDEN_SIZE,
+    )
 
     torch.manual_seed(RANDOM_SEED)
     if torch.cuda.is_available():

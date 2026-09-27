@@ -1,4 +1,4 @@
-"""Download Fashion-MNIST and create reproducible dataset splits."""
+"""Download Fashion-MNIST and create reproducible train/validation splits."""
 
 from pathlib import Path
 
@@ -15,7 +15,9 @@ VALIDATION_SIZE = 5_000
 
 
 def load_fashion_mnist() -> tuple[Dataset, Dataset, Dataset]:
-    """Return the Fashion-MNIST training, validation, and test datasets."""
+    """Return 55,000 training, 5,000 validation, and 10,000 test samples."""
+    DATASET_DIRECTORY.mkdir(parents=True, exist_ok=True)
+
     # ToTensor converts each image to float32 and scales uint8 pixels to [0, 1].
     transform = ToTensor()
 
