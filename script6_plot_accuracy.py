@@ -1,6 +1,17 @@
 """Plot training accuracy from an existing Fashion-MNIST history."""
 
 import matplotlib.pyplot as plt
+import torch
+from torchmetrics.classification import MulticlassAccuracy
+
+from script2_inspect_fashion_mnist_data import create_data_loaders
+from script3_image_classifier import device, loss_function, model
+from script4_train_model import (
+    LEARNING_RATE,
+    NUMBER_OF_CLASSES,
+    NUMBER_OF_EPOCHS,
+    train_model,
+)
 
 
 def plot_accuracy(history: dict[str, list[float]]) -> None:
@@ -18,3 +29,20 @@ def plot_accuracy(history: dict[str, list[float]]) -> None:
     plt.legend()
     plt.tight_layout()
     plt.show()
+
+
+if __name__ == "__main__":
+    training_loader, validation_loader, _ = create_data_loaders()
+    optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE)
+    accuracy = MulticlassAccuracy(num_classes=NUMBER_OF_CLASSES).to(device)
+
+    history = train_model(
+        model,
+        optimizer,
+        loss_function,
+        accuracy,
+        training_loader,
+        validation_loader,
+        NUMBER_OF_EPOCHS,
+    )
+    plot_accuracy(history)
