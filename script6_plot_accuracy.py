@@ -1,4 +1,4 @@
-"""Train the Fashion-MNIST classifier and plot its training accuracy."""
+"""Plot training accuracy from an existing Fashion-MNIST history."""
 
 import matplotlib.pyplot as plt
 import torch

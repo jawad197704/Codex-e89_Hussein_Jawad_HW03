@@ -56,11 +56,10 @@ display when necessary.
 ## 6. `script6_plot_accuracy.py` — Plot learning progress
 
 This script provides `plot_accuracy`, which accepts metric history produced by
-a training run. When executed directly, it trains the baseline classifier and
-passes the returned history to that plotting function, so a plot is displayed.
-Matplotlib shows the recorded training accuracy for every epoch, with a marker
-at each value. The plot includes labeled axes, a title, legend, grid, tight
-layout, and a fixed accuracy range from zero to one.
+an earlier training run; it does not train the classifier again. The function
+uses Matplotlib to display the recorded training accuracy for every epoch, with
+a marker at each recorded value. The plot includes labeled axes, a title,
+legend, grid, tight layout, and a fixed accuracy range from zero to one.
 
 ## 7. `script7_optuna.py` — Tune hyperparameters
 
